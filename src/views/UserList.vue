@@ -1,8 +1,8 @@
 <template>
   <div id="userlist">
     <div v-for="item in imglist" :key="item.pk" class="user">
-      <img :src="'https://api.dweb.club/'+'item.pic'" alt />
-      <p>{{ item.title }}</p>
+      <img :src="apiurl+'upload/'+item.headImg" alt />
+      <p>{{ item.nickName }}</p>
     </div>
   </div>
 </template>
@@ -12,22 +12,38 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      imglist:[]
+      apiurl:'http://127.0.0.1:9000/',
+      imglist:[],
+      menuId:1,
     }
   },
   //用户在看到页面之前，最后vue提供的一次函数执行
   mounted() {
-    this.getData()
+    this.getUserList(this.menuId)
+  },
+  watch:{
+    // 监听跳转
+    $route(to){
+      console.log(to.query.menuId)
+      this.menuId = to.query.menuId
+      this.getUserList(this.menuId)
+    }
   },
   methods: {
-    getData(){
+    // 从这里开始后端请求
+    getUserList(id){
+      console.log('开始获取用户分类列表'+id)
       axios({
-        url:'http://127.0.0.1:9000/api/',
+        url:'http://127.0.0.1:9000/get-user-list/',
         type:'json',
-        method:'get'
+        params:{
+          // id:id
+          id,
+        },
+        menthod:'get',
       }).then((res)=>{
         console.log(res)
-        // this.imglist = res.data.newsdata
+        this.imglist = res.data
       })
     }
   },
