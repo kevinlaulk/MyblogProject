@@ -33,6 +33,7 @@
 
 #home .header h1, h2 {
     color: #ffffff;
+    margin-top: 0;
 }
 
 #home .content .menu {

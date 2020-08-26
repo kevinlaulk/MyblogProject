@@ -5,9 +5,12 @@
       <router-link to="/about">About</router-link>
     </div>-->
     <div>
+      <button @click="showLoginRegisterBox(1)">登录</button>
+      <button @click="showLoginRegisterBox(2)">注册</button>
+      <button @click="showLoginRegisterBox(3)">修改</button>
       <div class="header">
-        <h1>Home</h1>
-        <img src="./assets/logo.png" alt />
+        <h1>{{siteinfo.sitename}}</h1>
+        <img :src="siteinfo.logo" alt />
       </div>
       <hr />
       <div class="content">
@@ -33,21 +36,28 @@
       </div>
       <hr />
     </div>
-
+    <LoginBox v-if="boxtarget" v-bind:target="boxtarget" @hideBox="hideLoginRegisterBox"></LoginBox>
     <div class="foot">Copyright © 2020 Masaaki</div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoginBox from "../src/components/LoginBox"
 export default {
+    components:{
+    LoginBox
+  },
   data() {
     return {
       choosed: 1,
       choosed_text: 'Django后端',
       menulist: [],
+      boxtarget:0,
+      siteinfo:{}
     };
   },
+
   mounted() {
     this.getMenuList()
   },
@@ -61,7 +71,8 @@ export default {
         method: "get",
       }).then((res) => {
         console.log(res);
-        this.menulist = res.data;
+        this.menulist = res.data.menu_data;
+        this.siteinfo = res.data.siteinfo
       });
     },
     chooseMenu(id){
@@ -74,6 +85,14 @@ export default {
       }
       // 进行id传参跳转
       this.$router.push({path:'/', query:{menuId:id}})
+    },
+    // 展示登陆注册框体LoginBox
+    showLoginRegisterBox(value){
+      this.boxtarget = value
+    },
+    // 隐藏父组件
+    hideLoginRegisterBox(){
+      this.boxtarget = 0
     }
   },
 };
