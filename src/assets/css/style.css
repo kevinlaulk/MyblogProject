@@ -68,3 +68,9 @@
     /* border: 1px solid #000; */
 }
 
+#home #login-userinfo img{
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+

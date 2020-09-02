@@ -80,7 +80,16 @@ export default {
               break;
             default:
               alert("登录成功");
-              console.log(res.data.token);
+              console.log(res.data);
+              window.localStorage.setItem('token', res.data.token);
+              // window.location.reload(); 一刷新vuex就重置了
+              // 开始存储vuex的用户信息
+              var userinfo = res.data.userinfo
+              console.log(userinfo)
+              this.$store.commit('editUserinfo',userinfo)
+              if (this.$route.path!= "/userinfo"){
+                this.$router.push({path:"/userinfo"})
+              }
           }
         });
       } else {

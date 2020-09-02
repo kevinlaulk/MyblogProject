@@ -11,6 +11,11 @@ Vue.use(VueRouter)
     component: () => import('../views/UserList.vue')
   },
   {
+    path: '/userinfo',
+    name: 'Userinfo',
+    component: () => import('../views/Userinfo.vue')
+  },
+  {
     path: '/vuecli',
     name: 'vuecli',
     component: () => import('../views/vuecli.vue')
